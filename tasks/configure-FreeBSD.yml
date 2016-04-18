@@ -11,4 +11,4 @@
     mode: 0755
     src: FreeBSD-influxd
     dest: /usr/local/etc/rc.d/influxd
-    notify: Restart influxd
+  notify: Restart influxd
