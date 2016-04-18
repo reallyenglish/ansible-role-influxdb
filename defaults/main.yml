@@ -8,4 +8,4 @@ influxdb_db_dir: "{{ __influxdb_db_dir }}"
 influxdb_service: influxd
 influxdb_conf: "{{ __influxdb_conf }}"
 #influxdb_pem_file: /etc/ssl/influxdb.pem
-influxd_flags: ""
+influxdb_flags: ""
