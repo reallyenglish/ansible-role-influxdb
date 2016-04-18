@@ -1,0 +1,11 @@
+---
+# defaults file for ansible-role-influxdb
+
+influxdb_user: influxd
+influxdb_group: influxd
+influxdb_log_dir: /var/log/influxdb
+influxdb_db_dir: "{{ __influxdb_db_dir }}"
+influxdb_service: influxd
+influxdb_conf: "{{ __influxdb_conf }}"
+#influxdb_pem_file: /etc/ssl/influxdb.pem
+

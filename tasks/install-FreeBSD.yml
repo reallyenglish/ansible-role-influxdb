@@ -1,0 +1,5 @@
+---
+- name: install influxdb
+  pkgng:
+    name: influxdb
+    state: present

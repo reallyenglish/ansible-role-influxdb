@@ -1,0 +1,3 @@
+---
+__influxdb_db_dir: /var/db/influxdb
+__influxdb_conf: /usr/local/etc/influxd.conf

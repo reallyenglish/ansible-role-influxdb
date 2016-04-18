@@ -1,0 +1,32 @@
+---
+# tasks file for ansible-role-influxdb
+
+- include_vars: "{{ ansible_os_family }}.yml"
+
+- include: install-FreeBSD.yml
+  when: ansible_os_family == 'FreeBSD'
+
+- name: Create log directory
+  file:
+    path: "{{ influxdb_log_dir }}"
+    mode: 0755
+    owner: "{{ influxdb_user }}"
+    group: "{{ influxdb_group }}"
+
+- name: Create db directory
+  file:
+    path: "{{ influxdb_db_dir }}"
+    mode: 0755
+    owner: "{{ influxdb_user }}"
+    group: "{{ influxdb_group }}"
+
+- name: Create influxd.conf
+  template:
+    src: influxd.conf.j2
+    dest: "{{ influxdb_conf }}"
+
+- name: Start influxdb
+  service:
+    name: "{{ influxdb_service }}"
+    enabled: true
+    state: started
