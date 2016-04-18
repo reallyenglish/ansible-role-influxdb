@@ -20,6 +20,9 @@
     owner: "{{ influxdb_user }}"
     group: "{{ influxdb_group }}"
 
+- include: configure-FreeBSD.yml
+  when: ansible_os_family == 'FreeBSD'
+
 - name: Create influxd.conf
   template:
     src: influxd.conf.j2

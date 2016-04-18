@@ -1,0 +1,13 @@
+---
+
+- name: create rc.subr fragment
+  template:
+    src: FreeBSD.rc.subr.j2
+    dest: /etc/rc.conf.d/influxd
+  notify: Restart influxd
+
+- name: fix rc.subr script
+  file:
+    mode: 0755
+    src: FreeBSD-influxd
+    path: /usr/local/etc/rc.d/influxd

@@ -2,6 +2,7 @@
   roles:
     - ansible-role-influxdb
   vars:
+    influxdb_flags: "-join foo.example.com:8888"
     influxdb_config: |
       [meta]
         enabled = true
