@@ -1,24 +1,24 @@
-require 'spec_helper'
-require 'serverspec'
+require "spec_helper"
+require "serverspec"
 
-package = 'influxdb'
-service = 'influxd'
-config  = '/etc/influxdb/influxd.conf'
-user    = 'influxd'
-group   = 'influxd'
-ports   = [ 8083, 8086, 8088 ]
-log_dir = '/var/log/influxdb'
-db_dir  = '/var/lib/influxdb'
+package = "influxdb"
+service = "influxd"
+config  = "/etc/influxdb/influxd.conf"
+user    = "influxd"
+group   = "influxd"
+ports   = [8083, 8086, 8088]
+log_dir = "/var/log/influxdb"
+db_dir  = "/var/lib/influxdb"
 
 case os[:family]
-when 'freebsd'
-  config = '/usr/local/etc/influxd.conf'
-  db_dir = '/var/db/influxdb'
+when "freebsd"
+  config = "/usr/local/etc/influxd.conf"
+  db_dir = "/var/db/influxdb"
 end
 
 describe package(package) do
   it { should be_installed }
-end 
+end
 
 describe service(service) do
   it { should be_running }
@@ -51,8 +51,8 @@ describe file(db_dir) do
 end
 
 case os[:family]
-when 'freebsd'
-  describe file('/etc/rc.conf.d/influxd') do
+when "freebsd"
+  describe file("/etc/rc.conf.d/influxd") do
     it { should be_file }
     its(:content) { should match Regexp.escape('influxd_user="influxd"') }
     its(:content) { should match Regexp.escape('influxd_group="influxd"') }
@@ -62,16 +62,16 @@ when 'freebsd'
 end
 
 if 1 == 0
-# XXX serverspec uses 'ps -C procname -o user=' but it is a Linux specific flag
-# TODO create a patch
-# /usr/local/bin/influxd -join foo.example.com:8888 -config=/usr/local/etc/influxd.conf
-describe process("influxd") do
-  its(:user) { should eq "influxd" }
-  its(:args) { should match Regexp.escape('-join foo.example.com:8888 -config=/usr/local/etc/influxd.conf') }
-end
+  # XXX serverspec uses 'ps -C procname -o user=' but it is a Linux specific flag
+  # TODO create a patch
+  # /usr/local/bin/influxd -join foo.example.com:8888 -config=/usr/local/etc/influxd.conf
+  describe process("influxd") do
+    its(:user) { should eq "influxd" }
+    its(:args) { should match Regexp.escape("-join foo.example.com:8888 -config=/usr/local/etc/influxd.conf") }
+  end
 end
 # the work around of above issue
-describe command('ps axwwu') do
-  its(:stdout) { should match /^influxd .*/ }
-  its(:stdout) { should match Regexp.escape('influxd -join foo.example.com:8888 -config=/usr/local/etc/influxd.conf') }
+describe command("ps axwwu") do
+  its(:stdout) { should match(/^influxd .*/) }
+  its(:stdout) { should match Regexp.escape("influxd -join foo.example.com:8888 -config=/usr/local/etc/influxd.conf") }
 end
