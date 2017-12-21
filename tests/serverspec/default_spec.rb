@@ -61,7 +61,7 @@ when "freebsd"
   end
 end
 
-if 1 == 0
+if 1.zero?
   # XXX serverspec uses 'ps -C procname -o user=' but it is a Linux specific flag
   # TODO create a patch
   # /usr/local/bin/influxd -join foo.example.com:8888 -config=/usr/local/etc/influxd.conf
