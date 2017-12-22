@@ -6,7 +6,7 @@ service = "influxd"
 config  = "/etc/influxdb/influxd.conf"
 user    = "influxd"
 group   = "influxd"
-ports   = [8083, 8086, 8088]
+ports   = [8086, 8088]
 log_dir = "/var/log/influxdb"
 db_dir  = "/var/lib/influxdb"
 
@@ -57,7 +57,7 @@ when "freebsd"
     its(:content) { should match Regexp.escape('influxd_user="influxd"') }
     its(:content) { should match Regexp.escape('influxd_group="influxd"') }
     its(:content) { should match Regexp.escape('influxd_conf="/usr/local/etc/influxd.conf"') }
-    its(:content) { should match Regexp.escape('influxdb_flags="-join foo.example.com:8888"') }
+    its(:content) { should match Regexp.escape('influxdb_flags=""') }
   end
 end
 
@@ -67,11 +67,11 @@ if 1.zero?
   # /usr/local/bin/influxd -join foo.example.com:8888 -config=/usr/local/etc/influxd.conf
   describe process("influxd") do
     its(:user) { should eq "influxd" }
-    its(:args) { should match Regexp.escape("-join foo.example.com:8888 -config=/usr/local/etc/influxd.conf") }
+    its(:args) { should match Regexp.escape("-config=/usr/local/etc/influxd.conf") }
   end
 end
 # the work around of above issue
 describe command("ps axwwu") do
   its(:stdout) { should match(/^influxd .*/) }
-  its(:stdout) { should match Regexp.escape("influxd -join foo.example.com:8888 -config=/usr/local/etc/influxd.conf") }
+  its(:stdout) { should match Regexp.escape("influxd -config=/usr/local/etc/influxd.conf") }
 end
