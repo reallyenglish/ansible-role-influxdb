@@ -13,17 +13,20 @@ provisioner:
 platforms:
   - name: freebsd-10.3-amd64
     driver:
-      box: trombik/ansible-freebsd-10.3-amd64
+      box: mitsuruy/ansible-freebsd-10.3-amd64
       box_check_update: false
     driver_config:
       ssh:
         shell: '/bin/sh'
+    provisioner:
+      extra_vars:
+        ansible_python_interpreter: '/usr/local/bin/python'
 
 suites:
   - name: default
     provisioner:
       name: ansible_playbook
-      playbook: test/integration/default.yml
+      playbook: tests/serverspec/default.yml
     verifier:
       name: shell
-      command: rspec -c -f d -I spec/serverspec spec/serverspec/default_spec.rb
+      command: rspec -c -f d -I tests/serverspec tests/serverspec/default_spec.rb
